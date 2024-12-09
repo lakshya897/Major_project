@@ -56,8 +56,39 @@ if uploaded_file is not None:
     scaler = StandardScaler()
     X_scaled = scaler.fit_transform(X)
 
+    # Step 5: Feature Engineering
+    # Statistical Features (Mean, Std, Skew, Kurtosis)
+    def extract_statistical_features(data):
+        mean = np.mean(data, axis=1)
+        std = np.std(data, axis=1)
+        skewness = skew(data, axis=1)
+        kurt = kurtosis(data, axis=1)
+        return np.column_stack([mean, std, skewness, kurt])
+
+    # Frequency Domain Features using FFT
+    def extract_frequency_features(data):
+        fft_features = np.abs(fft(data))[:, :int(data.shape[1] // 2)]  # Take only positive frequencies
+        return np.column_stack([np.mean(fft_features, axis=1), np.std(fft_features, axis=1)])
+    
+    # Time-Frequency Domain Features using Wavelet Transform
+    def extract_wavelet_features(data):
+    wavelet_features = []
+    for i in range(data.shape[0]):
+        coeffs = pywt.wavedec(data[i], 'db1', level=4)  # Discrete Wavelet Transform
+        # Collect mean values of each level of coefficients
+        wavelet_features.append([np.mean(coeff) for coeff in coeffs])
+    return np.array(wavelet_features)
+
+    # Combine all features
+    statistical_features = extract_statistical_features(X_scaled)
+    frequency_features = extract_frequency_features(X_scaled)
+    wavelet_features = extract_wavelet_features(X_scaled)
+
+    # Combine all features into one dataset
+    X_combined = np.hstack([statistical_features, frequency_features, wavelet_features])
+
     # Step 5: Train-Test Split
-    X_train, X_test, y_train, y_test = train_test_split(X_scaled, y, test_size=0.3, random_state=42)
+    X_train, X_test, y_train, y_test = train_test_split(X_combined, y, test_size=0.3, random_state=42)
 
     # Model Training and Evaluation
     st.subheader("Model Training and Evaluation")
