@@ -100,7 +100,7 @@ if uploaded_file is not None:
     st.write("Best parameters for Random Forest:", random_rf.best_params_)
     random_rf_pred = random_rf.predict(X_test)
     accuracy = accuracy_score(y_test,random_rf_pred)
-    st.write("Accuracy",{accuracy})
+    st.write("Accuracy,{accuracy}")
     
     # Naive Bayes Tuning
     param_grid_nb = {'var_smoothing': np.logspace(0, -9, num=50)}
@@ -109,7 +109,7 @@ if uploaded_file is not None:
     st.write("Best parameters for Naive Bayes:", random_nb.best_params_)
     random_nb_pred = random_nb.predict(X_test)
     accuracy = accuracy_score(y_test,random_nb_pred)
-    st.write("Accuracy",{accuracy})
+    st.write("Accuracy,{accuracy}")
 
     # KNN Tuning
     param_grid_knn = {'n_neighbors': [3, 5, 7], 'metric': ['euclidean', 'manhattan']}
@@ -119,7 +119,7 @@ if uploaded_file is not None:
     st.write("Best parameters for KNN:", random_knn.best_params_)
     random_knn_pred = random_knn.predict(X_test)
     accuracy = accuracy_score(y_test,random_knn_pred)
-    st.write("Accuracy",{accuracy})
+    st.write("Accuracy,{accuracy}")
 
     # SVM Tuning
     param_grid_svm = {'C': [0.1, 1, 10], 'gamma': ['scale', 'auto'], 'kernel': ['linear', 'rbf']}
@@ -128,7 +128,7 @@ if uploaded_file is not None:
     st.write("Best parameters for SVM:", random_svm.best_params_)
     random_svm_pred = random_svm.predict(X_test)
     accuracy = accuracy_score(y_test,random_svm_pred)
-    st.write("Accuracy",{accuracy})
+    st.write("Accuracy,{accuracy}")
 
     # Save the best model
     best_model_name = max(model_accuracies, key=model_accuracies.get)
