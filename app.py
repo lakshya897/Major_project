@@ -72,12 +72,12 @@ if uploaded_file is not None:
     
     # Time-Frequency Domain Features using Wavelet Transform
     def extract_wavelet_features(data):
-    wavelet_features = []
-    for i in range(data.shape[0]):
-        coeffs = pywt.wavedec(data[i], 'db1', level=4)  # Discrete Wavelet Transform
-        # Collect mean values of each level of coefficients
-        wavelet_features.append([np.mean(coeff) for coeff in coeffs])
-    return np.array(wavelet_features)
+        wavelet_features = []
+        for i in range(data.shape[0]):
+            coeffs = pywt.wavedec(data[i], 'db1', level=4)  # Discrete Wavelet Transform
+            # Collect mean values of each level of coefficients
+            wavelet_features.append([np.mean(coeff) for coeff in coeffs])
+        return np.array(wavelet_features)
 
     # Combine all features
     statistical_features = extract_statistical_features(X_scaled)
